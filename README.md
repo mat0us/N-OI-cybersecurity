@@ -22,27 +22,3 @@ Studijní poznámky k předmětu Kybernetická bezpečnost. Každý Markdown v [
 | [P12 - Wireless communication security](poznamky/P12_ENA-KB_Wireless.md) | `12_ENA-KB_Wireless.pdf` | hotovo |
 | [P13 - Special tools in securing networks](poznamky/P13_ENA-KB_special-tools.md) | `13_ENA-KB_special-tools.pdf` | hotovo |
 
----
-
-## Struktura adresáře
-
-```text
-.
-├── README.md
-├── poznamky/
-│   ├── 01_Obecne_principy_bezpecnosti.md
-│   ├── 02_ENA-KB_Data_a_server_protection.md
-│   ├── 03_Kryptografie.md
-│   ├── 04a_Symetricka_kryptografie.md
-│   ├── 04b_Asymetricka_kryptografie_a_hashing.md
-│   ├── 04c_Protokoly_vyssi_urovne.md
-│   ├── 05_Legislativa.md
-│   ├── P5_ENA-KB_Monitoring.md
-│   ├── P7_ENA-KB_PKI.md
-│   ├── P10_ENA-KB_Endpoint_protection.md
-│   ├── P11_ENA-KB_Infrastructure_protection.md
-│   ├── P12_ENA-KB_Wireless.md
-│   ├── P13_ENA-KB_special-tools.md
-│   └── assets/
-└── zdrojové PDF/HTML soubory
-```
