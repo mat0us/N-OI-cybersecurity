@@ -1,234 +1,234 @@
-# P5 - ENA-KB: Monitoring a sprava sluzeb a siti
+# P5 - ENA-KB: Monitoring a správa služeb a sítí
 
 **Zdroj:** `05_ENA-KB_monitoring.pdf`  
-**Autor materialu:** Tomas Sochor, brezen 2026
+**Autor materiálu:** Tomáš Sochor, březen 2026
 
 ---
 
 ## 1. Smysl monitoringu
 
-Cilem provozu IT je, aby sluzby byly dostupne ve chvili, kdy jsou potreba. Vypadek systemu se typicky nestane bez priciny:
+Cílem provozu IT je, aby služby byly dostupné ve chvíli, kdy jsou potřeba. Výpadek systému se typicky nestane bez příčiny:
 
-- kazde selhani ma nejakou pricinu,
-- pred selhanim se casto objevuji symptomy,
-- pokud symptomy sledujeme, muzeme problem odhalit driv, nez nastane skutecny vypadek.
+- každé selhání má nějakou příčinu,
+- před selháním se často objevují symptomy,
+- pokud symptomy sledujeme, můžeme problém odhalit dřív, než nastane skutečný výpadek.
 
-### Dopady vypadku
+### Dopady výpadku
 
-| Dopad | Vysvetleni |
+| Dopad | Vysvětlení |
 |---|---|
-| **Ztrata reputace** | Organizace pusobi nespolehlive. |
-| **Financni ztrata** | Zakaznici nemohou vyuzit sluzbu nebo dokoncit objednavku. |
-| **Ztrata produktivity** | Zamestnanci nemohou pracovat s informacnim systemem. |
+| **Ztráta reputace** | Organizace působí nespolehlivě. |
+| **Finanční ztráta** | Zákazníci nemohou využít službu nebo dokončit objednávku. |
+| **Ztráta produktivity** | Zaměstnanci nemohou pracovat s informačním systémem. |
 
-Monitoring proto neni jen "graf CPU". Je to systematicke sledovani toho, jak se chovaji jednotlive komponenty a sluzby.
+Monitoring proto není jen "graf CPU". Je to systematické sledování toho, jak se chovají jednotlivé komponenty a služby.
 
 ---
 
-## 2. Cile monitoringu sluzeb
+## 2. Cíle monitoringu služeb
 
-Vetsina dnesnich sluzeb ma pozadavek dostupnosti **24/7**. Plati to i v organizacich s jednosmennym provozem, protoze uzivatele casto pristupuji ke sluzbam vecer, v noci nebo o vikendu.
+Většina dnešních služeb má požadavek dostupnosti **24/7**. Platí to i v organizacích s jednosměnným provozem, protože uživatelé často přistupují ke službám večer, v noci nebo o víkendu.
 
-### Parametry sluzby
+### Parametry služby
 
-| Typ parametru | Co sledujeme | Priklad |
+| Typ parametru | Co sledujeme | Příklad |
 |---|---|---|
-| **Lokalni dostupnost** | Jestli sluzba nebo proces bezi. | Systemova sluzba je `running`. |
-| **Lokalni vyuziti zdroju** | CPU, pamet, disk, fyzicke nebo virtualni zdroje. | Disk je zaplneny na 92 %. |
-| **Vzdalena dostupnost** | Jestli je sluzba dostupna z jineho mista. | Port odpovida z internetu/VPN. |
-| **Latence** | Doba odezvy. | HTTP odpoved trva 250 ms. |
-| **Propustnost** | Prenos dat za cas. | Stahovani obsahu v MB/s. |
-| **QoS parametry** | Jitter, maximalni zpozdeni apod. | Dulezite u hlasu/videa. |
+| **Lokální dostupnost** | Jestli služba nebo proces běží. | Systémová služba je `running`. |
+| **Lokální využití zdrojů** | CPU, paměť, disk, fyzické nebo virtuální zdroje. | Disk je zaplněný na 92 %. |
+| **Vzdálená dostupnost** | Jestli je služba dostupná z jiného místa. | Port odpovídá z internetu/VPN. |
+| **Latence** | Doba odezvy. | HTTP odpověď trvá 250 ms. |
+| **Propustnost** | Přenos dat za čas. | Stahování obsahu v MB/s. |
+| **QoS parametry** | Jitter, maximální zpoždění apod. | Důležité u hlasu/videa. |
 
 ### Latence vs. propustnost
 
-PDF vyslovne upozornuje, ze **latence** a **transmission rate/throughput** se nemaji zamenovat:
+PDF výslovně upozorňuje, že **latence** a **transmission rate/throughput** se nemají zaměňovat:
 
-- latence = jak rychle prijde odpoved,
-- propustnost = kolik dat protece za jednotku casu.
+- latence = jak rychle přijde odpověď,
+- propustnost = kolik dat proteče za jednotku času.
 
-Sluzba muze mit nizkou latenci, ale spatnou propustnost, nebo naopak.
-
----
-
-## 3. Problem: proces bezi, ale sluzba nemusi fungovat
-
-To, ze proces existuje v systemu, jeste neznamena, ze je sluzba opravdu dostupna.
-
-Je potreba overovat:
-
-- zda je server vzdaleně "zivy" napr. pres ping,
-- zda je port otevreny a nasloucha,
-- zda aplikace odpovida v rozumnem case,
-- zda je sluzba dostupna z pohledu uzivatele.
-
-Priklad: webovy server muze mit bezici proces, ale aplikace muze vracet chybu, databaze nemusi odpovidat nebo firewall muze blokovat pristup.
+Služba může mít nízkou latenci, ale špatnou propustnost, nebo naopak.
 
 ---
 
-## 4. Metriky monitoringu sluzeb
+## 3. Problém: proces běží, ale služba nemusí fungovat
 
-### Lokalni metriky
+To, že proces existuje v systému, ještě neznamená, že je služba opravdu dostupná.
 
-U virtualizovane infrastruktury se sleduje hlavne:
+Je potřeba ověřovat:
+
+- zda je server vzdáleně "živý" např. přes ping,
+- zda je port otevřený a naslouchá,
+- zda aplikace odpovídá v rozumném čase,
+- zda je služba dostupná z pohledu uživatele.
+
+Příklad: webový server může mít běžící proces, ale aplikace může vracet chybu, databáze nemusí odpovídat nebo firewall může blokovat přístup.
+
+---
+
+## 4. Metriky monitoringu služeb
+
+### Lokální metriky
+
+U virtualizované infrastruktury se sleduje hlavně:
 
 - dostupnost hypervizoru,
-- stav virtualniho stroje:
+- stav virtuálního stroje:
   - running,
   - suspended,
   - stopped,
-- beh procesu,
-- vyuziti hardwarovych zdroju:
+- běh procesu,
+- využití hardwarových zdrojů:
   - CPU,
   - RAM,
   - disk,
-  - dalsi fyzicke nebo virtualni zdroje.
+  - další fyzické nebo virtuální zdroje.
 
-### Vzdalene metriky
+### Vzdálené metriky
 
-Z pohledu dostupnosti sluzby se sleduje:
+Z pohledu dostupnosti služby se sleduje:
 
 - IPv4/IPv6 ping,
-- otevreny a odpovidajici port,
-- aplikacni odezva,
-- prenosova rychlost pri stahovani obsahu,
-- dalsi QoS parametry podle typu sluzby.
+- otevřený a odpovídající port,
+- aplikační odezva,
+- přenosová rychlost při stahování obsahu,
+- další QoS parametry podle typu služby.
 
 ---
 
-## 5. Nastroje pro monitoring serveru
+## 5. Nástroje pro monitoring serveru
 
-Existuje mnoho komercnich i open-source nastroju. PDF uvadi jako priklady:
+Existuje mnoho komerčních i open-source nástrojů. PDF uvádí jako příklady:
 
 - **Prometheus**,
 - **Nagios**,
 - **Zabbix**.
 
-### Pozadavky na monitorovaci nastroj
+### Požadavky na monitorovací nástroj
 
-| Pozadavek | Proc je dulezity |
+| Požadavek | Proč je důležitý |
 |---|---|
-| **Siroky vyber metrik** | Bez metrik neni co vyhodnocovat. |
-| **Standardni i vlastni metriky** | Obecne metriky nestaci pro vsechny aplikace. |
-| **Alerting pri prekroceni prahu** | Napr. prilis dlouha latence nebo vysoke CPU. |
-| **Detekce anomalii** | Sleduje odchylku od baseline, tedy normalniho stavu. |
-| **Korelace metrik** | Pomaha pri hledani priciny problemu napric systemy. |
-| **Podpora cloudu** | Cloudove sluzby maji jinou meritelnost nez vlastni servery. |
+| **Široký výběr metrik** | Bez metrik není co vyhodnocovat. |
+| **Standardní i vlastní metriky** | Obecné metriky nestačí pro všechny aplikace. |
+| **Alerting při překročení prahu** | Např. příliš dlouhá latence nebo vysoké CPU. |
+| **Detekce anomálií** | Sleduje odchylku od baseline, tedy normálního stavu. |
+| **Korelace metrik** | Pomáhá při hledání příčiny problému napříč systémy. |
+| **Podpora cloudu** | Cloudové služby mají jinou měřitelnost než vlastní servery. |
 
 ### Korelace metrik
 
-Pri ladeni incidentu je casto nutne spojit data z vice zdroju:
+Při ladění incidentu je často nutné spojit data z více zdrojů:
 
 - servery,
 - switche,
 - firewally,
 - aplikace,
-- cloudove sluzby.
+- cloudové služby.
 
-Proto je zasadni **casova synchronizace**. Bez ni se spatne urcuje, co se stalo drive a co bylo nasledkem.
+Proto je zásadní **časová synchronizace**. Bez ní se špatně určuje, co se stalo dříve a co bylo následkem.
 
 ---
 
-## 6. Logovani
+## 6. Logování
 
-Monitoring sam o sobe nemusi stacit. Metrika rekne, ze se neco zmenilo; log casto rekne, co presne se stalo.
+Monitoring sám o sobě nemusí stačit. Metrika řekne, že se něco změnilo; log často řekne, co přesně se stalo.
 
 ### Vlastnosti logu
 
-Logy se mohou lisit:
+Logy se mohou lišit:
 
-- velikosti,
-- tim, co se loguje a co se vynecha,
-- zavaznosti udalosti,
-- dobou uchovani,
-- formatem,
-- moznosti centralniho sberu.
+- velikostí,
+- tím, co se loguje a co se vynechá,
+- závažností události,
+- dobou uchování,
+- formátem,
+- možností centrálního sběru.
 
-Stejne jako u metrik je dulezita **casova synchronizace**.
+Stejně jako u metrik je důležitá **časová synchronizace**.
 
-### Typy logovani
+### Typy logování
 
-| Typ logu | Typicky obsah |
+| Typ logu | Typický obsah |
 |---|---|
-| **Security** | Prihlaseni, zmeny opravneni, bezpecnostni udalosti. |
-| **Server** | Systemove sluzby, jadro, stav systemu. |
-| **Application** | Chyby aplikace, transakce, business udalosti. |
+| **Security** | Přihlášení, změny oprávnění, bezpečnostní události. |
+| **Server** | Systémové služby, jádro, stav systému. |
+| **Application** | Chyby aplikace, transakce, business události. |
 
-Kazdy typ logu muze mit jinou dobu uchovani a jinou uroven detailu.
+Každý typ logu může mít jinou dobu uchování a jinou úroveň detailu.
 
 ---
 
-## 7. Protokoly a nastroje pro logovani
+## 7. Protokoly a nástroje pro logování
 
 ### Syslog
 
-Syslog je obecny protokol pro uchovavani textovych log zaznamu.
+Syslog je obecný protokol pro uchovávání textových log záznamů.
 
 Charakteristika:
 
-- casty v unixovych systemech,
-- logy se casto posilaji do vzdaleneho umisteni,
-- standard IETF, aktualni RFC 5424 z roku 2009,
-- existuji protokoly inspirovane syslogem, napr. RELP.
+- častý v unixových systémech,
+- logy se často posílají do vzdáleného umístění,
+- standard IETF, aktuální RFC 5424 z roku 2009,
+- existují protokoly inspirované syslogem, např. RELP.
 
 ### Windows Event Log
 
-Windows Event Log je nastroj pro Windows servery.
+Windows Event Log je nástroj pro Windows servery.
 
-Vyhody:
+Výhody:
 
-- dobre integrovany do Windows,
-- lepsi nastroje pro vyhledavani v prostredi Windows.
+- dobře integrovaný do Windows,
+- lepší nástroje pro vyhledávání v prostředí Windows.
 
-Nevyhoda:
+Nevýhoda:
 
-- horsi interoperabilita s jinymi operacnimi systemy, zejmena pri centralizovanem logovani.
+- horší interoperabilita s jinými operačními systémy, zejména při centralizovaném logování.
 
 ---
 
 ## 8. SNMP
 
-**SNMP** (Simple Network Management Protocol) je IETF standard pro monitoring sitovych zarizeni.
+**SNMP** (Simple Network Management Protocol) je IETF standard pro monitoring síťových zařízení.
 
-### Zakladni vlastnosti
+### Základní vlastnosti
 
 - Verze: **1, 2c, 3**.
-- Architektura klient-server, oznacovana jako **agent/manager**.
-- Agent = monitorovane zarizeni.
-- Manager = ridici system, ktery sbira data.
-- Aplikacni protokol nad UDP.
+- Architektura klient-server, označovaná jako **agent/manager**.
+- Agent = monitorované zařízení.
+- Manager = řídicí systém, který sbírá data.
+- Aplikační protokol nad UDP.
 - Port agenta: **161**.
 - Port managera pro trapy: **162**.
 
-### Typy SNMP zprav
+### Typy SNMP zpráv
 
-| Zprava | Smer | Vyznam |
+| Zpráva | Směr | Význam |
 |---|---|---|
 | **GetRequest** | Manager -> Agent | Dotaz na hodnotu. |
-| **SetRequest** | Manager -> Agent | Nastaveni hodnoty. |
-| **Response** | Agent -> Manager | Odpoved na dotaz. |
-| **Trap** | Agent -> Manager | Nevyzadana zprava vyvolana udalosti. |
+| **SetRequest** | Manager -> Agent | Nastavení hodnoty. |
+| **Response** | Agent -> Manager | Odpověď na dotaz. |
+| **Trap** | Agent -> Manager | Nevyžádaná zpráva vyvolaná událostí. |
 
-### Bezpecnost SNMP
+### Bezpečnost SNMP
 
-| Verze | Bezpecnost |
+| Verze | Bezpečnost |
 |---|---|
-| **SNMP v1/v2c** | Plaintext community string, z bezpecnostniho pohledu slabe. |
-| **SNMP v3** | Podporuje autentizaci a sifrovani zprav. |
+| **SNMP v1/v2c** | Plaintext community string, z bezpečnostního pohledu slabé. |
+| **SNMP v3** | Podporuje autentizaci a šifrování zpráv. |
 
 ---
 
 ## 9. MIB a OID
 
-**MIB** (Management Information Base) je databaze promennych, ktere SNMP agent poskytuje managerovi.
+**MIB** (Management Information Base) je databáze proměnných, které SNMP agent poskytuje managerovi.
 
-Objekty jsou zapisovane v notaci **ASN.1**. Kazda promenna ma identifikator **OID**.
+Objekty jsou zapisované v notaci **ASN.1**. Každá proměnná má identifikátor **OID**.
 
-### Priklad OID
+### Příklad OID
 
 `1.3.6.1.4.1.14988.1.1.1.2`
 
-| Cast | Vyznam |
+| Část | Význam |
 |---|---|
 | `1` | ISO |
 | `1.3` | identified-organization |
@@ -237,9 +237,9 @@ Objekty jsou zapisovane v notaci **ASN.1**. Kazda promenna ma identifikator **OI
 | `1.3.6.1.4` | private |
 | `1.3.6.1.4.1` | IANA enterprise numbers |
 | `1.3.6.1.4.1.14988` | Mikrotik |
-| dalsi cast | proprietarni struktura konkretniho zarizeni |
+| další část | proprietární struktura konkrétního zařízení |
 
-U Mikrotiku material zminuje prikaz:
+U Mikrotiku materiál zmiňuje příkaz:
 
 ```text
 interface print oid
@@ -251,62 +251,62 @@ interface print oid
 
 ### SNMP Manager
 
-Manager je software bezici typicky na jednom pocitaci v siti.
+Manager je software běžící typicky na jednom počítači v síti.
 
-Sbira data:
+Sbírá data:
 
-- od vsech agentu identifikovanych stejnym community stringem,
-- z odpovedi na GetRequest/SetRequest,
-- z trapu posilanych agentem pri udalosti.
+- od všech agentů identifikovaných stejným community stringem,
+- z odpovědí na GetRequest/SetRequest,
+- z trapů posílaných agentem při události.
 
-Priklad trapu: CPU usage presahne 80 %.
+Příklad trapu: CPU usage přesáhne 80 %.
 
 ### SNMP Agent
 
-Agent je softwarovy modul dostupny na mnoha spravovatelných zarizenich:
+Agent je softwarový modul dostupný na mnoha spravovatelných zařízeních:
 
 - router,
 - switch,
 - IDS/IPS,
 - firewall,
-- nektere servery.
+- některé servery.
 
-SNMP je v materialu oznacen jako **legacy protokol**. Postupne je nahrazovan novejsimi alternativami, ale stale se drzi kvuli siroke podpore napric vendory.
+SNMP je v materiálu označen jako **legacy protokol**. Postupně je nahrazován novějšími alternativami, ale stále se drží kvůli široké podpoře napříč vendory.
 
 ---
 
-## 11. Monitoring sitovych toku
+## 11. Monitoring síťových toků
 
 ### NetFlow
 
-NetFlow je proprietarni protokol Cisco z roku 1996. Pouziva trivrsvou architekturu:
+NetFlow je proprietární protokol Cisco z roku 1996. Používá třívrstvou architekturu:
 
-- **Flow exporter** - zarizeni, ktere exportuje informace o tocich,
-- **Flow collector** - system, ktery toky sbira,
-- **Analyzer app** - aplikace pro analyzu.
+- **Flow exporter** - zařízení, které exportuje informace o tocích,
+- **Flow collector** - systém, který toky sbírá,
+- **Analyzer app** - aplikace pro analýzu.
 
-Misto ukladani jednotlivych paketu NetFlow sumarizuje informace do **flows**. To je:
+Místo ukládání jednotlivých paketů NetFlow sumarizuje informace do **flows**. To je:
 
-- snazsi na pochopeni,
-- mene narocne na ulozeni,
-- vhodne pro prehled o provozu.
+- snazší na pochopení,
+- méně náročné na uložení,
+- vhodné pro přehled o provozu.
 
 ### Co je flow
 
-Flow je skupina IP paketu se shodnymi:
+Flow je skupina IP paketů se shodnými:
 
-- zdrojovou a cilovou IP adresou,
-- zdrojovym a cilovym portem,
-- cislem protokolu:
+- zdrojovou a cílovou IP adresou,
+- zdrojovým a cílovým portem,
+- číslem protokolu:
   - TCP = 6,
   - ICMP = 1.
 
 ### Verze NetFlow
 
-| Verze | Poznamka |
+| Verze | Poznámka |
 |---|---|
-| **v5** | Jedna z nejpouzivanejsich verzi. |
-| **v9** | Flexibilnejsi, podpora IPv6, MPLS a dalsich technologii. |
+| **v5** | Jedna z nejpoužívanějších verzí. |
+| **v9** | Flexibilnější, podpora IPv6, MPLS a dalších technologií. |
 
 ---
 
@@ -315,13 +315,13 @@ Flow je skupina IP paketu se shodnymi:
 | Protokol | Charakteristika |
 |---|---|
 | **IPFIX** | IP Flow Information Export, IETF standard RFC 7011-7015 a RFC 5103. |
-| **sFlow** | Sampled Flow, nahodne vzorkovani kazdeho n-teho paketu. Mene presne, ale mene narocne. Popsano v RFC 3176. |
-| **J-Flow** | Proprietarni protokol Juniper. |
+| **sFlow** | Sampled Flow, náhodné vzorkování každého n-tého paketu. Méně přesné, ale méně náročné. Popsáno v RFC 3176. |
+| **J-Flow** | Proprietární protokol Juniper. |
 
-Rozdil mezi agregaci a samplingem:
+Rozdíl mezi agregací a samplingem:
 
 - NetFlow/IPFIX typicky agreguje informace do toku.
-- sFlow vzorkuje provoz, a proto muze byt mene presny, ale levnejsi na vykon a uloziste.
+- sFlow vzorkuje provoz, a proto může být méně přesný, ale levnější na výkon a úložiště.
 
 ---
 
@@ -329,88 +329,88 @@ Rozdil mezi agregaci a samplingem:
 
 ### RMON
 
-**Remote Monitoring of Network** slouzi pro monitoring fyzicke a linkove vrstvy.
+**Remote Monitoring of Network** slouží pro monitoring fyzické a linkové vrstvy.
 
 Vlastnosti:
 
-- rozsiruje MIB o nove polozky,
-- sondy na zarizenich posilaji MIB data SNMP managerovi,
+- rozšiřuje MIB o nové položky,
+- sondy na zařízeních posílají MIB data SNMP managerovi,
 - IETF standard RFC 4502,
-- v1 je popsana v RFC 2819.
+- v1 je popsána v RFC 2819.
 
 ### SMON
 
-**SMON** je rozsireni RMON pro prepinane site.
+**SMON** je rozšíření RMON pro přepínané sítě.
 
 - standard RFC 2613,
-- resi monitoring v prostredi switchu.
+- řeší monitoring v prostředí switchů.
 
 ---
 
 ## 14. Network Discovery
 
-Discovery slouzi k identifikaci zarizeni v blizkem okoli sitoveho prvku.
+Discovery slouží k identifikaci zařízení v blízkém okolí síťového prvku.
 
-Typicky bezi na:
+Typicky běží na:
 
 - routeru,
 - switchi,
 - firewallu,
-- jinem prvku sitove infrastruktury.
+- jiném prvku síťové infrastruktury.
 
-Umi zjistit napr.:
+Umí zjistit např.:
 
-- sousedni routery a switche,
-- schopnosti zarizeni:
+- sousední routery a switche,
+- schopnosti zařízení:
   - L3 routing,
   - L2 switching,
-- rozhrani a jejich typy:
+- rozhraní a jejich typy:
   - GigabitEthernet,
   - Serial,
   - FastEthernet,
-- dalsi informace o zarizeni.
+- další informace o zařízení.
 
-Spravna funkce discovery vyzaduje, aby na obou propojenych zarizenich bezel stejny nebo kompatibilni discovery protokol.
+Správná funkce discovery vyžaduje, aby na obou propojených zařízeních běžel stejný nebo kompatibilní discovery protokol.
 
 ### CDP vs. LLDP
 
-| Protokol | Typ | Vyznam |
+| Protokol | Typ | Význam |
 |---|---|---|
-| **CDP** | Cisco proprietary | Funguje pro Cisco zarizeni, chybi interoperabilita v heterogennim prostredi. |
-| **LLDP** | IEEE 802.1AB | Multivendor pristup, podporuje Cisco, HP, Dell, Juniper a dalsi; da se propojit se SNMP a MIB. |
+| **CDP** | Cisco proprietary | Funguje pro Cisco zařízení, chybí interoperabilita v heterogenním prostředí. |
+| **LLDP** | IEEE 802.1AB | Multivendor přístup, podporuje Cisco, HP, Dell, Juniper a další; dá se propojit se SNMP a MIB. |
 
-LLDP je obecne vhodnejsi tam, kde je infrastruktura slozena z vice vendoru.
-
----
-
-## 15. Zkouskove shrnuti
-
-- Monitoring slouzi k odhaleni problemu pred realnym vypadkem.
-- Proces muze bezet, ale sluzba presto nemusi byt dostupna.
-- Rozlisuj lokalni a vzdalene metriky.
-- Nezamenuj latenci a propustnost.
-- Monitoring potrebuje alerting, baseline, detekci anomalii a korelaci metrik.
-- Logy doplnuji metriky a pomahaji vysvetlit, co se stalo.
-- Syslog je obecny a interoperabilni, Windows Event Log je silny ve Windows prostredi.
-- SNMP pouziva model manager/agent a porty UDP 161/162.
-- SNMP v1/v2c je bezpecnostne slabe kvuli plaintext community stringu; v3 podporuje autentizaci a sifrovani.
-- MIB obsahuje promenne, OID jednoznacne identifikuje objekt.
-- NetFlow sumarizuje provoz do toku; alternativy jsou IPFIX, sFlow a J-Flow.
-- Discovery protokoly pomahaji zjistit sousedni zarizeni; CDP je Cisco-only, LLDP je standardizovane a multivendor.
+LLDP je obecně vhodnější tam, kde je infrastruktura složená z více vendorů.
 
 ---
 
-## Otazky k opakovani
+## 15. Zkouškové shrnutí
 
-1. Proc samotny beh procesu nestaci jako dukaz dostupnosti sluzby?
-2. Jak se lisi lokalni a vzdalene metriky?
-3. Jaky je rozdil mezi latenci a propustnosti?
-4. Proc je dulezita casova synchronizace pri korelaci metrik a logu?
-5. Jake jsou vyhody a nevyhody Syslogu a Windows Event Logu?
-6. Popiste architekturu SNMP manager/agent.
-7. Jake porty SNMP pouziva?
+- Monitoring slouží k odhalení problémů před reálným výpadkem.
+- Proces může běžet, ale služba přesto nemusí být dostupná.
+- Rozlišuj lokální a vzdálené metriky.
+- Nezaměňuj latenci a propustnost.
+- Monitoring potřebuje alerting, baseline, detekci anomálií a korelaci metrik.
+- Logy doplňují metriky a pomáhají vysvětlit, co se stalo.
+- Syslog je obecný a interoperabilní, Windows Event Log je silný ve Windows prostředí.
+- SNMP používá model manager/agent a porty UDP 161/162.
+- SNMP v1/v2c je bezpečnostně slabé kvůli plaintext community stringu; v3 podporuje autentizaci a šifrování.
+- MIB obsahuje proměnné, OID jednoznačně identifikuje objekt.
+- NetFlow sumarizuje provoz do toků; alternativy jsou IPFIX, sFlow a J-Flow.
+- Discovery protokoly pomáhají zjistit sousední zařízení; CDP je Cisco-only, LLDP je standardizované a multivendor.
+
+---
+
+## Otázky k opakování
+
+1. Proč samotný běh procesu nestačí jako důkaz dostupnosti služby?
+2. Jak se liší lokální a vzdálené metriky?
+3. Jaký je rozdíl mezi latencí a propustností?
+4. Proč je důležitá časová synchronizace při korelaci metrik a logů?
+5. Jaké jsou výhody a nevýhody Syslogu a Windows Event Logu?
+6. Popište architekturu SNMP manager/agent.
+7. Jaké porty SNMP používá?
 8. Co je MIB a co je OID?
 9. Co je flow v NetFlow?
-10. Jak se lisi NetFlow, IPFIX, sFlow a J-Flow?
-11. K cemu slouzi RMON a SMON?
-12. Proc je LLDP vhodnejsi nez CDP v heterogennich sitich?
+10. Jak se liší NetFlow, IPFIX, sFlow a J-Flow?
+11. K čemu slouží RMON a SMON?
+12. Proč je LLDP vhodnější než CDP v heterogenních sítích?
