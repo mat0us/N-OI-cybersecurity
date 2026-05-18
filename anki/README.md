@@ -11,6 +11,6 @@ Import v Anki:
 5. Pole mapuj jako: `Front`, `Back`, `Tags`.
 6. Povol HTML v polích, pokud se Anki zeptá.
 
-Počet vygenerovaných kartiček: 738.
+Počet vygenerovaných kartiček: 974.
 
 Import je generovaný z Markdown poznámek v `poznamky/`. Obrázky nejsou v kartičkách vkládané jako Anki media; textové kartičky ale zachovávají informaci, že v dané části byl obrázek.

@@ -8,6 +8,8 @@ Studijní poznámky k předmětu Kybernetická bezpečnost. Každý Markdown v [
 
 | Poznámky | Zdrojový soubor(y) | Stav |
 |---|---|---|
+| [00 - Co umět ke zkoušce](poznamky/00_Co_umet_ke_zkousce.md) | Souhrnný checklist podle požadovaných výstupů studia | hotovo |
+| [00 - Otázky a odpovědi ke zkoušce](poznamky/00_Otazky_a_odpovedi_ke_zkousce.md) | Souhrn testových otázek podle poznámek a `00_reading-week-enc-kb-ls-2026.html` | hotovo |
 | [01 - Obecné principy bezpečnosti](poznamky/01_Obecne_principy_bezpecnosti.md) | `01_Obecne_principy_zajistovani_bezpecnosti_a_dostupnosti_digitalnich_aktiv.pdf` | hotovo |
 | [02 - Data and server protection](poznamky/02_ENA-KB_Data_a_server_protection.md) | `02_ENA-KB_Data-and-server_protection.pdf` | hotovo |
 | [03 - Kryptografie](poznamky/03_Kryptografie.md) | `03a_crypto.html`, `03c_Moderni_kryptografie.pdf`, `03d_Principy_zakladnich_sifer.pdf` | hotovo |
@@ -21,4 +23,3 @@ Studijní poznámky k předmětu Kybernetická bezpečnost. Každý Markdown v [
 | [11 - Infrastructure protection](poznamky/11_ENA-KB_Infrastructure_protection.md) | `11_ENA-KB_infrastructure-protection.pdf` | hotovo |
 | [12 - Wireless communication security](poznamky/12_ENA-KB_Wireless.md) | `12_ENA-KB_Wireless.pdf` | hotovo |
 | [13 - Special tools in securing networks](poznamky/13_ENA-KB_special-tools.md) | `13_ENA-KB_special-tools.pdf` | hotovo |
-
